@@ -3,15 +3,19 @@
 package com.example.a29_rpmy
 
 import android.content.Intent
+import androidx.compose.ui.text.font.FontStyle
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -37,7 +41,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -50,7 +58,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             _29RPMYTheme {
                 val navController = rememberNavController()
-                MainScreen(navController)
+                NavGraph(navController, modifier = Modifier)
             }
         }
     }
@@ -62,8 +70,9 @@ fun MainScreen(
 ) {
 
     val context = LocalContext.current
-    val pagerState = rememberPagerState(initialPage = 0) { 3 }
+    val pagerState = rememberPagerState(initialPage = 0) { 4 }
     var selectedTab by remember { mutableIntStateOf(pagerState.currentPage) }
+    val namesPages = listOf<String>("Главная","Пицца","Паста","Заведения" )
 
     LaunchedEffect(selectedTab) {
         pagerState.scrollToPage(selectedTab)
@@ -118,7 +127,7 @@ fun MainScreen(
                                 selectedTab = index
                             }) {
                             Text(
-                                text = "Tab $index",
+                                text = namesPages[index],
                                 modifier = Modifier.padding(vertical = 8.dp)
                             )
                         }
@@ -135,9 +144,10 @@ fun MainScreen(
             HorizontalPager(state = pagerState) {
                     currentPage ->
                 when(currentPage){
-                    0 -> ScreenOne(currentPage.toString())
-                    1 -> ScreenTwo()
-                    2 -> ScreenThree()
+                    0 -> ScreenOne()
+                    1 -> PizzaMenu(navController)
+                    2 -> PastaMenu(navController)
+                    3 -> EstablishmentMenu(navController)
                     else -> {
 
                     }
@@ -148,19 +158,81 @@ fun MainScreen(
 }
 
 @Composable
-fun ScreenOne(pageNumber: String){
+@Preview(showBackground = true)
+fun ScreenOne(){
     Column(
-        modifier= Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
             model = "https://static.tildacdn.com/tild6330-3538-4965-a164-383631626636/Pancake_Strawberry_B.jpg",
-            contentDescription = "null"
+            contentDescription = "Пицца и закуски"
         )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .padding(horizontal = 15.dp, vertical = 20.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(24.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Заголовок
+                Text(
+                    text = "Пицца и закуски",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+
+                // Разделитель
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.3f)
+                        .height(2.dp)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
+                )
+
+                // Основной текст
+                Text(
+                    text = "С тех пор, как мы открыли свои двери в 2022 году, \"Пицца и закуски\" заработала репутацию одного из лучших ресторанов Пинского района.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f),
+                    textAlign = TextAlign.Center,
+                    lineHeight = 24.sp,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
+                Text(
+                    text = "Некоторые люди считают, что еда вне дома - это общение с друзьями и семьей. Мы считаем, что вкусной едой лучше всего наслаждаться, глядя в свой телефон.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+                    textAlign = TextAlign.Center,
+                    lineHeight = 22.sp,
+                    fontStyle = FontStyle.Italic
+                )
+
+                // Декоративный элемент
+                Box(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth(0.4f)
+                        .height(1.dp)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
+                )
+            }
+        }
     }
 }
-
 @Composable
 fun ScreenTwo(){
     Column(
@@ -180,5 +252,16 @@ fun ScreenThree(){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "I am on screen three. Сосал?")
+    }
+}
+
+@Composable
+fun ScreenFour(){
+    Column(
+        modifier= Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Сосал?")
     }
 }
