@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,6 +18,8 @@ fun NavGraph(
     navController: NavHostController,
     modifier: Modifier
 ){
+    val sharedViewModel: SharedViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = SealedScreens.Main.route,
@@ -24,7 +28,7 @@ fun NavGraph(
             .background(MaterialTheme.colorScheme.background)
     ){
         composable(SealedScreens.Main.route){
-            MainScreen(navController)
+            MainScreen(navController,sharedViewModel)
         }
 
         composable(SealedScreens.Order.route){
@@ -33,7 +37,7 @@ fun NavGraph(
 
         // Добавьте эти маршруты
         composable(SealedScreens.PizzaMenu.route){
-            PizzaMenu(navController) // Убедитесь, что у вас есть этот composable
+            PizzaMenu(navController, sharedViewModel) // Убедитесь, что у вас есть этот composable
         }
 
         composable(SealedScreens.PastaMenu.route){
@@ -54,7 +58,7 @@ fun NavGraph(
                 backStackEntry ->
             val name = backStackEntry.arguments?.getString("name") ?: ""
             val description = backStackEntry.arguments?.getString("description") ?: ""
-            PizzaDetails(navController, name,description)
+            PizzaDetails(navController,sharedViewModel)
         }
 
         composable(

@@ -66,7 +66,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(
-    navController: NavController
+    navController: NavController,
+    sharedViewModel: SharedViewModel
 ) {
 
     val context = LocalContext.current
@@ -145,7 +146,7 @@ fun MainScreen(
                     currentPage ->
                 when(currentPage){
                     0 -> ScreenOne()
-                    1 -> PizzaMenu(navController)
+                    1 -> PizzaMenu(navController,sharedViewModel)
                     2 -> PastaMenu(navController)
                     3 -> EstablishmentMenu(navController)
                     else -> {
@@ -241,27 +242,5 @@ fun ScreenTwo(){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "I'm now on screen without an index")
-    }
-}
-
-@Composable
-fun ScreenThree(){
-    Column(
-        modifier= Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "I am on screen three. Сосал?")
-    }
-}
-
-@Composable
-fun ScreenFour(){
-    Column(
-        modifier= Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Сосал?")
     }
 }
