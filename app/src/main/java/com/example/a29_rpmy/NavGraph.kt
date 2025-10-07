@@ -32,16 +32,16 @@ fun NavGraph(
         }
 
         composable(SealedScreens.Order.route){
-            MakeOrder(navController)
+            MakeOrder(navController, sharedViewModel)
         }
 
         // Добавьте эти маршруты
         composable(SealedScreens.PizzaMenu.route){
-            PizzaMenu(navController, sharedViewModel) // Убедитесь, что у вас есть этот composable
+            PizzaMenu(navController, sharedViewModel)
         }
 
         composable(SealedScreens.PastaMenu.route){
-            PastaMenu(navController) // Убедитесь, что у вас есть этот composable
+            PastaMenu(navController)
         }
 
         composable(SealedScreens.EstablishmentMenu.route){

@@ -107,7 +107,9 @@ fun MainScreen(
                         }
 
                         IconButton(
-                            onClick = {}) {
+                            onClick = {
+                                navController.navigate(SealedScreens.Order.route)
+                            }) {
                             Icon(Icons.Default.ShoppingCart, contentDescription = "Сделать заказ")
 
                         }
@@ -232,15 +234,5 @@ fun ScreenOne(){
                 )
             }
         }
-    }
-}
-@Composable
-fun ScreenTwo(){
-    Column(
-        modifier= Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "I'm now on screen without an index")
     }
 }
